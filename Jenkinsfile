@@ -23,8 +23,8 @@ pipeline{
          stage("Sonarqube Analysis "){
              steps{
                  withSonarQubeEnv('SonarQube-Server') {
-                     sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Swiggy-CI \
-                     -Dsonar.projectKey=Swiggy-CI '''
+                     sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=CI-withJenkins-CD-withJenkins-Swiggy \
+                     -Dsonar.projectKey=CI-withJenkins-CD-withJenkins-Swiggy '''
                  }
              }
          }
@@ -45,17 +45,17 @@ pipeline{
                  sh "trivy fs . > trivyfs.txt"
              }
          }
-          stage("Docker Build & Push"){
-             steps{
-                 script{
-                    withDockerRegistry(credentialsId: 'dockerhub', toolName: 'docker'){   
-                        sh "docker build -t swiggy-clone ."
-                        sh "docker tag swiggy-clone ashfaque9x/swiggy-clone:latest "
-                        sh "docker push ashfaque9x/swiggy-clone:latest "
-                     }
-                 }
-             }
-         }
+        //   stage("Docker Build & Push"){
+        //      steps{
+        //          script{
+        //             withDockerRegistry(credentialsId: 'dockerhub', toolName: 'docker'){   
+        //                 sh "docker build -t swiggy-clone ."
+        //                 sh "docker tag swiggy-clone ashfaque9x/swiggy-clone:latest "
+        //                 sh "docker push ashfaque9x/swiggy-clone:latest "
+        //              }
+        //          }
+        //      }
+        //  }
         //  stage("TRIVY"){
         //      steps{
         //          sh "trivy image ashfaque9x/swiggy-clone:latest > trivyimage.txt" 
