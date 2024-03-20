@@ -3,10 +3,10 @@ pipeline{
      
      tools{
          jdk 'jdk17'
-         nodejs 'node16'
+         nodejs 'my-nodejs'
      }
      environment {
-         SCANNER_HOME=tool 'sonarqube-scanner'
+         SCANNER_HOME=tool 'my-sonarqube-scanner'
      }
      
      stages {
@@ -17,7 +17,7 @@ pipeline{
          }
          stage('Checkout from Git'){
              steps{
-                 git branch: 'main', url: 'https://github.com/Ashfaque-9x/a-swiggy-clone.git'
+                 git branch: 'master', url: 'https://github.com/princewillopah/CI-withJenkins-CD-withJenkins-Swiggy.git'
              }
          }
          stage("Sonarqube Analysis "){
@@ -31,7 +31,7 @@ pipeline{
          stage("Quality Gate"){
             steps {
                  script {
-                     waitForQualityGate abortPipeline: false, credentialsId: 'SonarQube-Token' 
+                     waitForQualityGate abortPipeline: false, credentialsId: 'sonarqube-token' 
                  }
              } 
          }
@@ -56,24 +56,24 @@ pipeline{
                  }
              }
          }
-         stage("TRIVY"){
-             steps{
-                 sh "trivy image ashfaque9x/swiggy-clone:latest > trivyimage.txt" 
-             }
-         }
-          stage('Deploy to Kubernets'){
-             steps{
-                 script{
-                     dir('Kubernetes') {
-                         kubeconfig(credentialsId: 'kubernetes', serverUrl: '') {
-                         sh 'kubectl delete --all pods'
-                         sh 'kubectl apply -f deployment.yml'
-                         sh 'kubectl apply -f service.yml'
-                         }   
-                     }
-                 }
-             }
-         }
+        //  stage("TRIVY"){
+        //      steps{
+        //          sh "trivy image ashfaque9x/swiggy-clone:latest > trivyimage.txt" 
+        //      }
+        //  }
+        //   stage('Deploy to Kubernets'){
+        //      steps{
+        //          script{
+        //              dir('Kubernetes') {
+        //                  kubeconfig(credentialsId: 'kubernetes', serverUrl: '') {
+        //                  sh 'kubectl delete --all pods'
+        //                  sh 'kubectl apply -f deployment.yml'
+        //                  sh 'kubectl apply -f service.yml'
+        //                  }   
+        //              }
+        //          }
+        //      }
+        //  }
 
 
 
