@@ -22,7 +22,7 @@ pipeline{
          }
          stage("Sonarqube Analysis "){
              steps{
-                 withSonarQubeEnv('My-SonarQube servers-1') {
+                 withSonarQubeEnv('My-SonarQube-servers-1') {
                      sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=CI-withJenkins-CD-withJenkins-Swiggy \
                      -Dsonar.projectKey=CI-withJenkins-CD-withJenkins-Swiggy '''
                  }
